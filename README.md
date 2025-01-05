@@ -15,6 +15,7 @@ Isso se deve ao fato de que o PHPUnit 8 não é compatível com o PHP 8 ou vers�
 2. [O que é PHP Unit?](#o-que-é-php-unit)
 3. [Data Providers](#data-providers)
 4. [Fixtures](#fixtures)
+5. [Arquivo de configuração do PHPUnit](#arquivo-de-configuração-do-phpunit)
 
 # TDD
 **TDD**, ou Desenvolvimento Orientado a Testes (em inglês, _Test-Driven Development_), é uma prática de desenvolvimento de software onde você escreve os testes antes de escrever o código da funcionalidade em si. Parece contraintuitivo à primeira vista, mas traz muitos benefícios.
@@ -49,7 +50,6 @@ O teste agora passa.
 - _Refactor_: Se necessário, você pode melhorar a função, por exemplo, adicionando tratamento para entradas inválidas ou melhorando a performance. Como você tem o teste, pode fazer essas mudanças com confiança.
 
 ### Benefícios do TDD:
-
 - **Código mais limpo e organizado:** O ciclo _Red-Green-Refactor_ força você a pensar no design do código antes de implementá-lo, resultando em um código mais modular e fácil de manter.
 
 - **Menos bugs:** Escrever testes antes do código ajuda a identificar erros logo no início do desenvolvimento, tornando a correção mais fácil e barata.
@@ -68,11 +68,9 @@ Embora o TDD possa exigir um investimento inicial de tempo para aprender e aplic
 PHPUnit é um framework popular para testes unitários em PHP. Ele permite que desenvolvedores escrevam testes automatizados para garantir que unidades individuais de código (como funções, métodos ou classes) funcionem conforme o esperado. É uma ferramenta essencial para praticar TDD (Desenvolvimento Orientado a Testes) e para manter a qualidade do código em projetos PHP.
 
 ## O que são Testes Unitários?
-
 Antes de falar especificamente sobre o **PHPUnit**, é importante entender o conceito de testes unitários. Eles se concentram em testar pequenas partes isoladas do código, verificando se cada unidade executa sua função corretamente, independentemente do resto do sistema. Isso ajuda a identificar erros logo no início do desenvolvimento, tornando a correção mais fácil e rápida.
 
 ## Como o PHPUnit Funciona?
-
 O PHPUnit oferece uma estrutura para escrever e executar testes. Os testes são escritos em classes que herdam da classe `PHPUnit\Framework\TestCase`. Dentro dessas classes, você define métodos de teste que contêm asserções (_assertions_). As asserções verificam se um determinado resultado corresponde ao esperado.
 
 **Exemplo Básico:**
@@ -116,11 +114,9 @@ class SomarTest extends TestCase {
 *   `$this->assertEquals(5, somar(2, 3))` é uma asserção. Ela verifica se o resultado da chamada `somar(2, 3)` é igual a 5.
 
 ## Executando Testes:
-
 Para executar os testes, você geralmente usa o executável `phpunit` a partir da linha de comando. O PHPUnit procura por arquivos de teste (normalmente com sufixo `Test.php`) e executa os métodos de teste dentro deles. Ele então apresenta um relatório mostrando quais testes passaram e quais falharam.
 
 ### Recursos e Asserções do PHPUnit:
-
 O PHPUnit oferece uma vasta gama de recursos e asserções, incluindo:
 
 *   **Asserções:** `assertEquals()`, `assertSame()`, `assertTrue()`, `assertFalse()`, `assertNull()`, `assertGreaterThan()`, `assertLessThan()`, `expectException()`, entre muitas outras.
@@ -130,7 +126,6 @@ O PHPUnit oferece uma vasta gama de recursos e asserções, incluindo:
 *   **Cobertura de Código:** Permite gerar relatórios de cobertura, mostrando quais partes do código foram executadas pelos testes.
 
 ### Benefícios do Uso do PHPUnit:
-
 *   **Detecção precoce de erros:** Ajuda a encontrar erros no código logo no início do desenvolvimento.
 *   **Melhora a qualidade do código:** Incentiva a escrita de código mais modular, testável e manutenível.
 *   **Facilita a refatoração:** Permite fazer alterações no código com mais confiança, sabendo que os testes irão alertar sobre possíveis regressões.
@@ -265,7 +260,6 @@ O PHPUnit oferece métodos especiais para configurar e limpar as _fixtures_ ante
 ---
 
 ### **Por que usar Fixtures?**
-
 1. **Configuração Consistente:** Garantem que cada teste inicie com as mesmas condições, evitando interferências entre eles.
 2. **Reutilização de Código:** Evitam duplicação ao configurar o mesmo ambiente para vários testes.
 3. **Confiabilidade:** Garantem que cada teste seja isolado e independente dos outros.
@@ -273,7 +267,6 @@ O PHPUnit oferece métodos especiais para configurar e limpar as _fixtures_ ante
 ---
 
 ### **Principais Métodos de Fixture no PHPUnit**
-
 O PHPUnit fornece quatro métodos principais para gerenciar as fixtures:
 
 1. **`setUp()`**
@@ -341,7 +334,6 @@ class UserTest extends \PHPUnit\Framework\TestCase
 ---
 
 ### **Exemplo com Recursos Compartilhados**
-
 Para casos onde o custo de criar ou liberar recursos é alto (como conexões com banco de dados ou arquivos), use `setUpBeforeClass()` e `tearDownAfterClass()`.
 
 ```php
@@ -380,7 +372,6 @@ class DatabaseTest extends \PHPUnit\Framework\TestCase
 ---
 
 ### **Boas Práticas ao Usar Fixtures**
-
 1. **Evite Dependências Entre Testes:**
    - Cada teste deve ser independente, e as fixtures garantem isso ao resetar o estado inicial.
 
@@ -396,7 +387,6 @@ class DatabaseTest extends \PHPUnit\Framework\TestCase
 ---
 
 ### **Conclusão**
-
 As **fixtures** no PHPUnit são uma ferramenta poderosa para configurar e gerenciar o estado de testes de forma eficiente. Elas permitem criar testes mais robustos, organizados e confiáveis, garantindo que cada teste seja executado em um ambiente previsível e controlado. Ao utilizar os métodos fornecidos (`setUp`, `tearDown`, etc.), você pode otimizar seus testes e melhorar a qualidade geral do código.
 
 [PHPUnit - Fixtures](https://docs.phpunit.de/en/8.5/fixtures.html)
@@ -404,7 +394,6 @@ As **fixtures** no PHPUnit são uma ferramenta poderosa para configurar e gerenc
 ---
 
 ### Comparação de _Fixtures_ com outras linguagens
-
 Em outras linguagens também temos as _fixtures_ porém implementadas de formas diferentes.
 
 | Linguagem       | Framework            | Métodos de Configuração/Fixtures                                      | Descrição                                                                                   | Exemplo de Uso                                                                                     |
@@ -416,5 +405,145 @@ Em outras linguagens também temos as _fixtures_ porém implementadas de formas 
 | **C#**          | NUnit                | `SetUp`, `TearDown`, `OneTimeSetUp`, `OneTimeTearDown`                | Métodos que configuram ou limpam o ambiente antes/depois de cada teste ou de toda a classe. | `[SetUp] public void SetUp() { user = new User(); }`                                               |
 | **Python**      | pytest               | `@pytest.fixture`, `yield`                                            | Decoradores e geradores para criar fixtures reutilizáveis e limpar após o teste.            | `@pytest.fixture def user(): return User()`                                                        |
 | **JavaScript**  | Mocha                | `before`, `after`, `beforeEach`, `afterEach`                          | Ganchos para executar lógica de configuração e limpeza antes/depois de cada teste ou de todos os testes. | `before(() => { user = new User(); });`                                                            |
+
+[Sumário](#sumário)
+
+# Arquivo de configuração do PHPUnit
+O arquivo `phpunit.xml` ou `phpunit.xml.dist` é um componente essencial para configurar testes no PHPUnit. Ele define opções como diretórios de testes, configurações de cobertura de código, valores de variáveis de ambiente e outras definições que afetam a execução dos testes.
+
+---
+
+## Estrutura Geral de um Arquivo `phpunit.xml`
+Um exemplo básico de arquivo de configuração é:
+
+```xml
+<phpunit bootstrap="tests/bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="Default Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory>src</directory>
+        </include>
+    </coverage>
+
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="DB_HOST" value="localhost"/>
+    </php>
+</phpunit>
+```
+
+---
+
+### Diferenças entre PHPUnit 8.1 e 10.5
+
+#### 1. **Estrutura Geral do XML**
+   - **PHPUnit 8.1:** 
+     - O suporte para XML foi mais flexível, permitindo valores adicionais que não seguiam as restrições de esquema.
+     - Diretivas como `colors="true"` ainda eram comumente usadas para habilitar cores no terminal.
+   - **PHPUnit 10.5:** 
+     - Introduziu uma validação mais rigorosa no arquivo `phpunit.xml` com base em um esquema XSD. Configurações inválidas ou não reconhecidas causam erros.
+     - Algumas opções, como `colors`, foram descontinuadas e substituídas por configurações no terminal ou no comando de execução.
+
+#### 2. **Estrutura de Suites**
+   - **PHPUnit 8.1:** Suportes flexíveis para diretórios com `<directory>` diretamente dentro de `<testsuite>`.
+   - **PHPUnit 10.5:** Requere uma organização mais detalhada e suporte a novos atributos para facilitar execução granular.
+
+**Exemplo:**
+   - **PHPUnit 8.1**
+
+     ```xml
+     <testsuite name="Default Suite">
+         <directory>tests</directory>
+     </testsuite>
+     ```
+
+   - **PHPUnit 10.5**
+
+     ```xml
+     <testsuites>
+         <testsuite name="Unit Tests">
+             <directory suffix="Test.php">tests/Unit</directory>
+         </testsuite>
+     </testsuites>
+     ```
+
+#### 3. **Cobertura de Código**
+   - **PHPUnit 8.1:** Simples, com `<coverage>` definido diretamente.
+   - **PHPUnit 10.5:** Adotou uma estrutura mais detalhada e novas opções para cobertura de código.
+
+     ```xml
+     <coverage>
+         <include>
+             <directory>src</directory>
+         </include>
+         <report>
+             <text outputFile="coverage.txt"/>
+             <html outputDirectory="build/coverage"/>
+         </report>
+     </coverage>
+     ```
+
+#### 4. **Novas Tags no PHPUnit 10.5**
+   - Introdução de `<cache>` para gerenciar cache de testes.
+
+     ```xml
+     <cache directory=".phpunit/cache"/>
+     ```
+
+   - Novos atributos como `failOnEmptyTestSuite` para evitar falsos positivos quando uma suite de testes está vazia.
+
+#### 5. **Comportamento Deprecado no PHPUnit 10.5**
+   - Atributos como `processIsolation` e `colors` foram descontinuados ou movidos para outras formas de configuração.
+   - Configurações inválidas no XML resultam em erro imediato.
+
+---
+
+**Exemplo Comparativo de Arquivo Completo:**
+
+**PHPUnit 8.1**
+
+```xml
+<phpunit bootstrap="tests/bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="Default Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
+```
+
+**PHPUnit 10.5**
+
+```xml
+<phpunit bootstrap="tests/bootstrap.php" failOnEmptyTestSuite="true">
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory suffix="Test.php">tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage>
+        <include>
+            <directory>src</directory>
+        </include>
+        <report>
+            <text outputFile="coverage.txt"/>
+            <html outputDirectory="build/coverage"/>
+        </report>
+    </coverage>
+
+    <cache directory=".phpunit/cache"/>
+</phpunit>
+```
+
+---
+
+### Conclusão
+As mudanças entre o PHPUnit 8.1 e 10.5 refletem a evolução em termos de rigor e padronização. O PHPUnit 10.5 introduziu melhorias significativas na validação de configuração e suporte a novas funcionalidades, mas exige mais cuidado ao configurar o arquivo `phpunit.xml`.
 
 [Sumário](#sumário)
