@@ -1,7 +1,7 @@
 # PHP e TDD: testes com PHPUnit
 Curso da Alura ensinando a utilizar o PHPUnit para escrever e executar testes unitários.
 
-## Depências
+## Dependências
 Se você estiver usando o PHP 8.1 ou superior, recomendamos que você utilize o seguinte comando:
 
 ```bash
