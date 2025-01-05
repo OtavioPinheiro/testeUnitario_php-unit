@@ -546,4 +546,6 @@ Um exemplo básico de arquivo de configuração é:
 ### Conclusão
 As mudanças entre o PHPUnit 8.1 e 10.5 refletem a evolução em termos de rigor e padronização. O PHPUnit 10.5 introduziu melhorias significativas na validação de configuração e suporte a novas funcionalidades, mas exige mais cuidado ao configurar o arquivo `phpunit.xml`.
 
+Qualquer dúvida ou novas versões, sempre consulte a [documentação oficial](https://docs.phpunit.de/en/11.5/). [GitHub do PHPUnit](https://github.com/sebastianbergmann/phpunit-documentation-english/blob/10.5/src/index.rst).
+
 [Sumário](#sumário)
