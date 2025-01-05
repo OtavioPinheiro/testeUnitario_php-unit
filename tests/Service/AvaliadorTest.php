@@ -11,6 +11,13 @@ use Alura\Leilao\Service\Avaliador;
 
 class AvaliadorTest extends TestCase
 {
+    private $leiloeiro;
+
+    protected function setUp(): void
+    {
+        $this->leiloeiro = new Avaliador();
+    }
+
     /**
      * @dataProvider leilaoEmOrdemCrescente
      * @dataProvider leilaoEmOrdemDecrescente
@@ -22,10 +29,9 @@ class AvaliadorTest extends TestCase
         // Fornecido pelo Data Provider
         
         // Act - When
-        $leiloeiro = new Avaliador();
-        $leiloeiro->avalia($leilao);
+        $this->leiloeiro->avalia($leilao);
         
-        $maiorValor = $leiloeiro->getMaiorValor();
+        $maiorValor = $this->leiloeiro->getMaiorValor();
         
         // Assert - Then
         $valorEsperado = 2500;
@@ -44,10 +50,9 @@ class AvaliadorTest extends TestCase
         // Fornecido pelo Data Provider
         
         // Act - When
-        $leiloeiro = new Avaliador();
-        $leiloeiro->avalia($leilao);
+        $this->leiloeiro->avalia($leilao);
         
-        $menorValor = $leiloeiro->getMenorValor();
+        $menorValor = $this->leiloeiro->getMenorValor();
         
         // Assert - Then
         $valorEsperado = 1700;
@@ -66,10 +71,9 @@ class AvaliadorTest extends TestCase
         // Fornecido pelo Data Provider
         
         // Act - When
-        $leiloeiro = new Avaliador();
-        $leiloeiro->avalia($leilao);
+        $this->leiloeiro->avalia($leilao);
         
-        $maioresLances = $leiloeiro->getMaioresLances();
+        $maioresLances = $this->leiloeiro->getMaioresLances();
         
         // Assert - Then
         static::assertCount(3, $maioresLances);

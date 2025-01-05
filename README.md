@@ -14,6 +14,7 @@ Isso se deve ao fato de que o PHPUnit 8 não é compatível com o PHP 8 ou vers�
 1. [TDD](#tdd)
 2. [O que é PHP Unit?](#o-que-é-php-unit)
 3. [Data Providers](#data-providers)
+4. [Fixtures]()
 
 # TDD
 **TDD**, ou Desenvolvimento Orientado a Testes (em inglês, _Test-Driven Development_), é uma prática de desenvolvimento de software onde você escreve os testes antes de escrever o código da funcionalidade em si. Parece contraintuitivo à primeira vista, mas traz muitos benefícios.
@@ -255,3 +256,163 @@ class LargeDataTest extends \PHPUnit\Framework\TestCase
 Os _Data Providers_ são uma ferramenta poderosa no **PHPUnit** para testar diversas condições e entradas sem duplicar código. Eles são especialmente úteis em cenários complexos ou ao testar funções que aceitam múltiplos valores possíveis. Com a separação clara entre os dados e a lógica de teste, seu código de teste se torna mais limpo, organizado e fácil de manter.
 
 [Sumário](#sumário)
+
+# Fixtures
+As **fixtures** no PHPUnit são um conceito fundamental para a criação de testes confiáveis e bem estruturados. Elas representam o estado inicial necessário para executar um teste, ou seja, **configuram o ambiente para que o teste tenha tudo o que precisa para ser executado corretamente.**
+
+O PHPUnit oferece métodos especiais para configurar e limpar as _fixtures_ antes e depois da execução de um teste. Esses métodos são especialmente úteis para configurar dependências, inicializar dados e garantir que o ambiente seja restaurado ao estado original após a execução dos testes.
+
+---
+
+### **Por que usar Fixtures?**
+
+1. **Configuração Consistente:** Garantem que cada teste inicie com as mesmas condições, evitando interferências entre eles.
+2. **Reutilização de Código:** Evitam duplicação ao configurar o mesmo ambiente para vários testes.
+3. **Confiabilidade:** Garantem que cada teste seja isolado e independente dos outros.
+
+---
+
+### **Principais Métodos de Fixture no PHPUnit**
+
+O PHPUnit fornece quatro métodos principais para gerenciar as fixtures:
+
+1. **`setUp()`**
+   - É executado antes de cada método de teste.
+   - Usado para configurar o estado necessário para cada teste.
+   - Geralmente inicializa objetos e variáveis.
+
+2. **`tearDown()`**
+   - É executado após cada método de teste.
+   - Usado para limpar ou desfazer alterações feitas durante o teste.
+
+3. **`setUpBeforeClass()`**
+   - Executado uma vez antes de todos os testes da classe.
+   - Usado para configurar recursos compartilhados entre os testes.
+
+4. **`tearDownAfterClass()`**
+   - Executado uma vez após todos os testes da classe.
+   - Usado para liberar recursos compartilhados.
+
+---
+
+### **Exemplo Básico de Fixture**
+
+```php
+class UserTest extends \PHPUnit\Framework\TestCase
+{
+    private $user;
+
+    /**
+     * Configuração inicial antes de cada teste.
+     */
+    protected function setUp(): void
+    {
+        $this->user = new User('Alice', 'alice@example.com');
+    }
+
+    /**
+     * Limpeza após cada teste.
+     */
+    protected function tearDown(): void
+    {
+        unset($this->user);
+    }
+
+    /**
+     * Teste de exemplo usando a fixture.
+     */
+    public function testUserName()
+    {
+        $this->assertEquals('Alice', $this->user->getName());
+    }
+
+    public function testUserEmail()
+    {
+        $this->assertEquals('alice@example.com', $this->user->getEmail());
+    }
+}
+```
+
+#### **Explicação:**
+1. O método `setUp()` inicializa o objeto `User` antes de cada teste.
+2. O método `tearDown()` desfaz a inicialização, garantindo que o estado seja limpo.
+3. Os testes `testUserName` e `testUserEmail` reutilizam a configuração criada no `setUp()`.
+
+---
+
+### **Exemplo com Recursos Compartilhados**
+
+Para casos onde o custo de criar ou liberar recursos é alto (como conexões com banco de dados ou arquivos), use `setUpBeforeClass()` e `tearDownAfterClass()`.
+
+```php
+class DatabaseTest extends \PHPUnit\Framework\TestCase
+{
+    protected static $dbConnection;
+
+    /**
+     * Configuração única antes de todos os testes.
+     */
+    public static function setUpBeforeClass(): void
+    {
+        self::$dbConnection = new DatabaseConnection('localhost', 'testdb', 'user', 'password');
+    }
+
+    /**
+     * Limpeza única após todos os testes.
+     */
+    public static function tearDownAfterClass(): void
+    {
+        self::$dbConnection->close();
+        self::$dbConnection = null;
+    }
+
+    public function testDatabaseConnection()
+    {
+        $this->assertTrue(self::$dbConnection->isConnected());
+    }
+}
+```
+
+#### **Explicação:**
+1. `setUpBeforeClass()` cria uma conexão com o banco de dados uma única vez antes de todos os testes.
+2. `tearDownAfterClass()` fecha a conexão após todos os testes, liberando recursos.
+
+---
+
+### **Boas Práticas ao Usar Fixtures**
+
+1. **Evite Dependências Entre Testes:**
+   - Cada teste deve ser independente, e as fixtures garantem isso ao resetar o estado inicial.
+
+2. **Não Use Recursos Reais Sempre:**
+   - Para dependências como bancos de dados ou APIs externas, considere usar **mocks** ou **stubs** para reduzir o tempo de execução dos testes e evitar efeitos colaterais.
+
+3. **Limpeza Adequada:**
+   - Sempre limpe os recursos criados em `setUp()` ou `setUpBeforeClass()` para evitar interferências.
+
+4. **Mantenha o `setUp()` Simples:**
+   - Configure apenas o que é necessário para os testes; evite lógica complexa.
+
+---
+
+### **Conclusão**
+
+As **fixtures** no PHPUnit são uma ferramenta poderosa para configurar e gerenciar o estado de testes de forma eficiente. Elas permitem criar testes mais robustos, organizados e confiáveis, garantindo que cada teste seja executado em um ambiente previsível e controlado. Ao utilizar os métodos fornecidos (`setUp`, `tearDown`, etc.), você pode otimizar seus testes e melhorar a qualidade geral do código.
+
+[PHPUnit - Fixtures](https://docs.phpunit.de/en/8.5/fixtures.html)
+
+---
+
+### Comparação de _Fixtures_ com outras linguagens
+
+Em outras linguagens também temos as _fixtures_ porém implementadas de formas diferentes.
+
+| Linguagem       | Framework            | Métodos de Configuração/Fixtures                                      | Descrição                                                                                   | Exemplo de Uso                                                                                     |
+|------------------|----------------------|------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| **PHP**         | PHPUnit              | `setUp`, `tearDown`, `setUpBeforeClass`, `tearDownAfterClass`          | Métodos usados para configurar e limpar o ambiente antes e depois de testes individuais ou de toda a classe. | `protected function setUp(): void { $this->user = new User(); }`                                   |
+| **Java**        | JUnit                | `@Before`, `@After`, `@BeforeClass`, `@AfterClass`                    | Anotações para métodos que inicializam ou limpam o estado antes/depois de cada teste ou da classe inteira. | `@Before public void setUp() { user = new User(); }`                                               |
+| **Python**      | unittest             | `setUp`, `tearDown`, `setUpClass`, `tearDownClass`                    | Métodos de inicialização e limpeza para configurar o estado antes/depois de cada teste ou classe. | `def setUp(self): self.user = User()`                                                              |
+| **JavaScript**  | Jest                 | `beforeEach`, `afterEach`, `beforeAll`, `afterAll`                    | Ganchos que executam funções de configuração e limpeza antes/depois de cada teste ou de todos os testes. | `beforeEach(() => { user = new User(); });`                                                        |
+| **C#**          | NUnit                | `SetUp`, `TearDown`, `OneTimeSetUp`, `OneTimeTearDown`                | Métodos que configuram ou limpam o ambiente antes/depois de cada teste ou de toda a classe. | `[SetUp] public void SetUp() { user = new User(); }`                                               |
+| **Python**      | pytest               | `@pytest.fixture`, `yield`                                            | Decoradores e geradores para criar fixtures reutilizáveis e limpar após o teste.            | `@pytest.fixture def user(): return User()`                                                        |
+| **JavaScript**  | Mocha                | `before`, `after`, `beforeEach`, `afterEach`                          | Ganchos para executar lógica de configuração e limpeza antes/depois de cada teste ou de todos os testes. | `before(() => { user = new User(); });`                                                            |
