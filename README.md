@@ -14,7 +14,7 @@ Isso se deve ao fato de que o PHPUnit 8 não é compatível com o PHP 8 ou vers�
 1. [TDD](#tdd)
 2. [O que é PHP Unit?](#o-que-é-php-unit)
 3. [Data Providers](#data-providers)
-4. [Fixtures]()
+4. [Fixtures](#fixtures)
 
 # TDD
 **TDD**, ou Desenvolvimento Orientado a Testes (em inglês, _Test-Driven Development_), é uma prática de desenvolvimento de software onde você escreve os testes antes de escrever o código da funcionalidade em si. Parece contraintuitivo à primeira vista, mas traz muitos benefícios.
@@ -416,3 +416,5 @@ Em outras linguagens também temos as _fixtures_ porém implementadas de formas 
 | **C#**          | NUnit                | `SetUp`, `TearDown`, `OneTimeSetUp`, `OneTimeTearDown`                | Métodos que configuram ou limpam o ambiente antes/depois de cada teste ou de toda a classe. | `[SetUp] public void SetUp() { user = new User(); }`                                               |
 | **Python**      | pytest               | `@pytest.fixture`, `yield`                                            | Decoradores e geradores para criar fixtures reutilizáveis e limpar após o teste.            | `@pytest.fixture def user(): return User()`                                                        |
 | **JavaScript**  | Mocha                | `before`, `after`, `beforeEach`, `afterEach`                          | Ganchos para executar lógica de configuração e limpeza antes/depois de cada teste ou de todos os testes. | `before(() => { user = new User(); });`                                                            |
+
+[Sumário](#sumário)
